@@ -285,7 +285,12 @@ class Model(nn.Module):
             print('Removing NMS... ')
             self.model = self.model[:-1]  # remove
         return self
-
+    
+    def autoshape(self):  # add autoShape module
+        print('Adding autoShape... ')
+        m = autoShape(self)  # wrap model
+        copy_attr(m, self, include=('yaml', 'nc', 'hyp', 'names', 'stride'), exclude=())  # copy attributes
+        return m
 
     def info(self, verbose=False, img_size=640):  # print model information
         model_info(self, verbose, img_size)
