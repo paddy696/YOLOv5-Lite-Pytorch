@@ -12,6 +12,7 @@ def model_print(model, img_size):
     img = torch.zeros((1, model.yaml.get('ch', 3), stride, stride), device=next(model.parameters()).device)  # input
     flops = profile(deepcopy(model), inputs=(img,), verbose=False)[0] / 1E9 * 2  # stride GFLOPS
     img_size = img_size if isinstance(img_size, list) else [img_size, img_size]  # expand if int/float
+    print("Image Size: ", img_size)
     fs = ', %.6f GFLOPS' % (flops * img_size[0] / stride * img_size[1] / stride)  # imh x imw GFLOPS
 
     print(f"Model Summary: {len(list(model.modules()))} layers, {n_p} parameters, {n_g} gradients{fs}")
